@@ -1,0 +1,38 @@
+########### for 
+u1<-1:10
+for(i in 1:10)
+{
+  u1[i]<-u1[i]+2
+  print(u1[i])
+}
+u1
+ ### while
+s<-5
+while(s<- 6) {s<-s*2;print(s);} #siempre me imprime s
+
+a<-7
+while(a<6){a<-s*2;print(a);} #no imprime nada porque no se cumple la condición
+
+s<-7
+while(s<5){s<-s+1;;if(s==2)break;print(s);} #te saca del ciclo
+s<-2
+while(s<5){s<-s+1;if(s==3) next;print(s);} #te salta al siguiente
+
+#########################################################################################
+tsdes<-ts(desocupacion,frequency=4,start=2005)
+detsdes<-decompose(tsdes)
+detsdes$seasonal
+detsdes$trend
+x11()
+###grafica tendencia
+plot(tsdes,col="blue",main="tasa de desocupación trimestral", ylab="Tasas",xlab="Años")
+lines(detsdes$trend,col="red",ylab="tendencia") #te grafica la tendencia sobre la grafica
+
+#graficar estacionalidad
+monthplot(detsdes$seasonal,main="IVEc",ylab="IVEC TRIMESTRAL")
+
+#TAREA DESCOPONER UNA SERIE CON UN MODELO MULTIPLICATIVO
+detsdes2<-decompose(tsdes,type="multiplicative")
+# 1) Encontrar una st con tendencia a la alza y con estacionalidad que se incremente
+# 2) Aplicar modelo multiplicativo
+# 3) Graficar tendencia
