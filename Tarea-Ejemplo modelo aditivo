@@ -1,0 +1,13 @@
+install.packages("astsa")
+library(astsa)
+x11()
+plot(jj)
+
+?jj
+jjts<-ts(jj, frequency = 4,start=1960)
+d<-decompose(jjts)
+d
+x11()
+plot(jjts, main="Ganancias por acción de Jhonson and Jhonson",xlab="Time",ylab="Ganancia",col="purple",lwd=1.5)
+lines(d$trend,col="blue",pch=16,lwd=1.2)
+legend(1965,15,"Tendencia",text.col="blue")
