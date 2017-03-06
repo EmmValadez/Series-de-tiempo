@@ -1,0 +1,32 @@
+require(fpp)
+#la funcion season nos da en que periodo nos da el periodo con mas estsacionalidad
+
+##estacionalidad, tendencia y ciclico (en duda)
+x11();plot(window(elec,stat=1980),ylab="Gwh",xlab="Year",main="Australian electricity production")
+x11();seasonplot(elec,s=12,year.labels = T,main="valor acciones ICA", ylab = "valor cierre",col=rainbow(20), year.labels.left = T,pch=16)
+#s=seasonal/periodo
+
+
+#estacionalidad, ciclo y no mucha tendencia
+x11();plot(bricksq,ylab="million units",xlab="Year",main="Australian clay brick production")
+x11();seasonplot(bricksq,s=4,year.labels = T,main="Electricity", ylab = "año",col=rainbow(20), year.labels.left = T,pch=16)
+#en el tercer semetre se esta dando el componente cíclico
+
+#no estacionalidad, ni tendencia pero posible ciclo
+x11();plot(hsales,main="Sales of new-one family houses, USA", ylab="Total sales",xlab="Year")
+#no hay tendencia ni estacionalidad pues no hay una constante
+x11();seasonplot(hsales,s=12,year.labels = T,main=" venta de casas", ylab = "valor cierre",col=rainbow(20), year.labels.left = T,pch=16)
+
+
+dec<-decompose(bricksq)
+#eliminando tendencia
+sinesta<-bricksq-bricksq-dec$seasonal
+sintend<-bricksq-dec$trend
+plot(sinesta)
+plot(sintend)
+
+
+#####EJERCICIO: GRAFICAS Y DTECTAR TENDENCIA, ESTACIONALIDAD Y CICLO
+#analizar el procentaje del pib anual 70-89
+#EXPLICAR CICLOS Y PORQUE (CAUSAS)
+#SUBIR EL WORD CON GRAFICAS, LA BASE Y EL SCRIPT EN GIT.HUB
