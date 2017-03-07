@@ -1,0 +1,45 @@
+base<-read.csv(file.choose())
+pibts<-ts(base,frequency = 1,start=1970)
+
+x11();plot(pibts,lwd=2,col="blueviolet",xlab="",ylab="",lty=6)
+title(main="CRECIMIENTO ANUAL DEL PIB", col.main="brown3", xlab="Año", ylab="Porcentaje de crecimiento", col.lab="darkcyan",cex.lab=1.2) 
+axis(2, col.axis="deeppink")
+axis(1, col.axis="darkred")
+dev.print(file="pib1.pdf",device=pdf)
+#la serie no presenta tendencia ni estacionalidad pero tiene dos ciclos muy marcados
+#hay 3 ciclos
+
+
+x11();plot(window(pibts,start=1980),lwd=2,col="blueviolet",xlab="",ylab="",lty=6)
+title(main="CRECIMIENTO ANUAL DEL PIB", col.main="brown3", xlab="Año", ylab="Porcentaje de crecimiento", col.lab="darkcyan",cex.lab=1.2) 
+axis(2, col.axis="deeppink")
+axis(1, col.axis="darkred")
+dev.print(file="pib2.pdf",device=pdf)
+#hay un ciclo en 1976
+
+#El ciclo más marcado de crisis empieza desde 1981 desciende hasta 1982-1983 y viene el periodo 
+#de recuperación hasta 1983 cuando hacende hasta 1984
+
+#El siguiente ciclo empieza desde 1985 donde descinde hasta 1986 y luego asciende hasta 1987 manteniendo una
+#tendencia a la alza
+
+#EXPLICACIÓN
+
+#A finales de los 70´s, se pensaba que la economía mexicana había encontrado 
+#una mina de oro en el petróleo. Para 1978 la economía mexicana tuvo un intenso crecimiento,
+#e incluso el presidente López Portillo decía que había que empezar a administrar la abundancia. 
+#El gobierno decidió apostar todo a la producción de petróleo (80% de los ingresos del Estado),
+#e invertir una gran cantidad en infraestructura petrolera y así salir rápidamente de la crisis
+#del 76. Para financiarlo el país pidió varios prestamos en el extranjero tal que su deuda 
+#externa se incrementó casi el triple. Además, se implementaron los topes salariales que impidieron 
+#que la población no generará grandes ingresos. Es entonces que se originó un gran movimiento 
+#de migración hacia Estados Unidos por parte de la población con mayor capacidad productiva. 
+#Para 1982 Cuando los precios internacionales del petróleo empezaron a bajar se originó la 
+#crisis petrolera pues el país quedó endeudado, hubo una devaluación del peso mexicano 400% y
+#grandes niveles de inflación.  
+
+#Para 1987 aún con las secuelas de la gran crisis anterior que no terminaba de estabilizarse,
+#se vivió el Black Friday donde Millones de inversores de Wall Street decidieron vender sus 
+#acciones ocasionando un gran desbalance en la bolsa.                                                                                                                                                                                                                                                                                                                                     Para 1987 aún con las secuelas de la gran crisis anterior que no terminaba de estabilizarse, se vivió el Black Friday donde Millones de inversores de Wall Street decidieron vender sus acciones ocasionando un gran desbalance en la bolsa.
+                                                                                                                                                                                                                                                                                                                                      
+
