@@ -2,7 +2,8 @@ require(fpp)
 #la funcion season nos da en que periodo nos da el periodo con mas estsacionalidad
 
 ##estacionalidad, tendencia y ciclico (en duda)
-x11();plot(window(elec,stat=1980),ylab="Gwh",xlab="Year",main="Australian electricity production")
+x11();plot(window(elec,start=1980),ylab="Gwh",xlab="Year",main="Australian electricity production")
+#la funcion window es para obtener un subconjunto de mi serie
 x11();seasonplot(elec,s=12,year.labels = T,main="valor acciones ICA", ylab = "valor cierre",col=rainbow(20), year.labels.left = T,pch=16)
 #s=seasonal/periodo
 
