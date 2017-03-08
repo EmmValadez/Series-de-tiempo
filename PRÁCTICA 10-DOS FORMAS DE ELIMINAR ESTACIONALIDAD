@@ -1,0 +1,33 @@
+#descomosición de una serie en modelo aditivo
+
+deso<-read.csv(file.choose())
+desot<-ts(deso,frequency=4,start=2005)
+
+#aditivo
+deco1<-decompose(desot)
+
+#multiplicativo
+deco2<-decompose(desot,type="mult")
+
+###graficamos los modelos
+x11();plot(deco1)
+x11();plot(deco2)
+
+
+###desestacionalizar una serie
+
+
+## forma 1)
+require(fpp)
+eeadj<<-seasadj(deco1)
+##seadsadj elimina la estacionalidad
+
+
+### forma 2)
+eeadj2<- desot -deco1$seasonal
+
+x11();plot(desot)
+lines(eeadj,col="blue")
+
+
+
