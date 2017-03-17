@@ -1,0 +1,7 @@
+x<-read.csv(file.choose())
+y<-read.csv(file.choose())
+cov<-sum((x-mean(x[,1]))*(y-mean(y[,1]))/(length(x[,1])-1));cov
+cov(x[,1],y[,1])
+p<-cov/(sd(x[,1])*sd(y[,1]));p
+##por lo tanto los datos estan altamente relacionados
+cor(x[,1],y[,1])
