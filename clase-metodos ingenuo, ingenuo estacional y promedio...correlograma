@@ -1,0 +1,32 @@
+pib<-read.csv(file.choose()) #crecimiento del píb 
+pibts<-ts(pib,frequency=1,start=1980)
+desoc<-read.csv(file.choose())#tarea 2
+desocts<-ts(desoc,frequency=4,start=1960)
+
+##correlograma
+acf(pibts)
+acf(desocts)
+#ninguna de estas es completamente de ruido blanco 
+#o caminata aleatoria
+
+#tarea: buscar una st de México que tenga ruido blanco y otra que tenga
+#caminata aleatoria y demostrarlo con el correlograma
+
+
+#####################################################
+
+###MÉTODOS LINEALES
+require(forecast)
+
+#INGENUO
+#naive (serie, h=num pronosticos)
+naive(desocts,h=4)
+plot(naive(desocts,h=4))
+
+###MÉTODO PROMEDIO
+meanf(desocts,h=4)
+plot(meanf(desocts,h=4))
+
+###MÉTODO INGENUO ESTACIONAL
+snaive(desocts,h=4)
+plot(snaive(desocts,h=4))
