@@ -1,0 +1,21 @@
+desocts<-ts(read.csv(file.choose()),frequency=4,start=2005)
+desocts
+##MÉTODO DE LA DERIVA
+require(forecast)
+rwf(desocts,h=4,drift=T)
+
+
+  ########Ejemplo
+desom1<-naive(desocts,h=10) #ingenuo
+desom2<-meanf(desocts,h=10) #promedio
+desom3<-snaive(desocts,h=10) #promedio
+desom4<-rwf(desocts,h=10,drift= T) #promedio
+
+x11();plot(desom1,main="pronóstico de desocupación trimestral",col=9)
+  lines(desom2$mean,col="purple")
+  lines(desom3$mean,col="pink")
+  lines(desom4$mean,col="green")
+  legend("topright",lty=1,col=c("blue","purple","pink","green"),legend=c("ingenuo","media","ingenuo estacional","deriva"))
+  #mean son los pronósticos
+  
+  
