@@ -1,0 +1,21 @@
+asa1<-data.frame(read.csv(file.choose(), header=T)[7,2:49])
+asa2<-as.matrix(asa1)
+asa2<-as.numeric(asa2)
+asa2<-ts(asa2,start=2005,frequency=4)
+asa2
+
+################################## SUAVIZADO EXPONENCIAL SIMPLE
+require(forecast)
+m1<-ses(asa2,alpha=.1,initial = "simple",h=8)
+m2<-ses(asa2,alpha=.3,initial = "simple",h=8)
+m3<-ses(asa2,alpha=.95,initial = "simple",h=8)
+
+x11()
+plot(m1,ylab="asalariados",xlab="año",main="asalariados",type="o")
+lines(m1$fitted,col="brown",type="o")
+lines(m2$fitted,col="red",type="o")
+lines(m3$fitted,col="green",type="o")
+lines(m1$mean,col="brown",type="o")
+lines(m2$mean,col="red",type="o")
+lines(m3$mean,col="green",type="o")
+legend("topleft",lty=1,col=c(1,"brown","red","green"),c("datos",expression(alpha==.1),expression(alpha==.3),expression(alpha==.95)),pch=1)
