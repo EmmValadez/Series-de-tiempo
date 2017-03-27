@@ -1,0 +1,36 @@
+desots<-ts(read.csv(file.choose()),frequency=4,start=2005)
+
+desots2005to20010<-window(desots,end =c(2010,4))
+desots2011to2015<-window(desots,start=c(2011),end=c(2015,4))
+
+#install.packages("forecast")
+require(forecast)
+
+m1<-naive(desots2005to20010,h=20) 
+m2<-meanf(desots2005to20010,h=20)
+m3<-snaive(desots2005to20010,h=20)
+m4<-rwf(desots2005to20010,h=20,drift= T)
+
+
+x11();plot(m1,main="TASA DE DESOCUPACIÓN (2005,2015)",xlab="Tiempo",ylab="%",lwd=2)
+lines(m2$mean,col="chartreuse4",lty=2,lwd=2)
+lines(m3$mean,col="coral4",lty=3,lwd=2)
+lines(m4$mean,col="gold",lty=4,lwd=2)
+lines(desots2011to2015,col="darkturquoise",lty=5,lwd=3)
+legend("topright",lty=c(1,2,3,4,5),lwd=c(2,2,2,2,3),col=c("blue","chartreuse4","coral4","gold","darkturquoise"),legend=c("Ingenuo","Media","Ingenuo estacional","Deriva","Real"))
+
+error<-function(serie)
+{
+  x<-window(serie,end =c(2010,4))
+  real<-window(serie,start=c(2011),end=c(2015,4))
+  
+  ingenuo<-naive(x,h=20) 
+  promedio<-meanf(x,h=20) 
+  ingenuoe<-snaive(x,h=20) 
+deriva<-rwf(x,h=20,drift= T) 
+  
+list(Ingenuo=real-ingenuo$mean,Promedio=real-promedio$mean,IngenuoE=real-ingenuoe$mean,Deriva=real-deriva$mean)  
+  
+}
+
+error(desots)
