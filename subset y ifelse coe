@@ -1,0 +1,37 @@
+require(foreign)
+coe2<-read.dbf(file.choose())
+ls(coe2) #lista las variables de la base de datos por orden alfabetico
+class(coe2$P6D)
+as.character(coe2$P6D)
+
+coe2$P6D<-as.numeric(as.character(coe2$P6D))
+
+####funcion subset
+coesins<-subset(coe2,coe2$P6D==1 |coe2$P6D==2| coe2$P6D==3|coe2$P6D==4|coe2$P6D==5);coesins
+##con if
+coe2$sinseg<- ifelse(coe2$P6D>=1 &coe2$P6D<=5,1,ifelse(coe2$P6D>=6 & coe2$P6D<=9,2,0));coe2$sinseg
+table(coe2$sinseg)
+
+##ejercicio con la otra base 
+coe1<-read.dbf(file.choose())
+ls(coe1)
+
+coe1$c<-as.numeric(coe1$P1C)
+coe1$b<-as.numeric(coe1$P1B)
+coe1$d<-as.numeric(coe1$P2_1)
+coe1$e<-as.numeric(coe1$P2_2)
+coe1$f<-as.numeric(coe1$P2_3)
+coe1$g<-as.numeric(coe1$P2B)
+coe1$h<-as.numeric(coe1$P2C)
+coe1$i<-as.numeric(coe1$P1D)
+
+coe1$deso<- ifelse(coe1$c==11,1, ifelse((coe1$b==2)& (coe1$d==1|coe1$e==2|coe1$f==3)&(coe1$g==1)&(coe1$h!=2 | coe1$h!=9),2,
+                ifelse((coe1$i==2|coe1$i==9) & (coe1$d==1|coe1$e==2|coe1$f==3)& (coe1$g==1)&(coe1$h!=2 & coe1$i!=9),3,0)))
+
+table(coe1$deso)
+
+### Para expandir los datos de la muestra con las ponderaciones FAC de la base
+install.packages("questionr")
+require(questionr)
+wtd.table(coe1$deso,weights=coe1$FAC)
+coe1$FAC
