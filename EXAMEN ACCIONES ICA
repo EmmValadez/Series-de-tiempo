@@ -1,0 +1,72 @@
+base<-read.csv(file.choose(),header=T)
+ica<-ts(base,frequency = 252, start=c(01,2016));ica
+
+
+##ajuste de modelos
+require(forecast)
+m1<-ses(ica, alpha=.2,initial="simple",h=8);m1
+m2<-ses(ica, alpha=.4,initial="simple",h=8);m2
+m3<-ses(ica, alpha=.6,initial="simple",h=8);m3
+m4<-ses(ica, alpha=.8,initial="simple",h=8);m4
+
+x11();plot(ica,main="Acciones ICA",xlab="TIEMPO",ylab="PRECIO",type="l")
+lines(fitted(m1),col="brown",type="l")
+lines(fitted(m2),col="red",type="l")
+lines(fitted(m3),col="blue",type="l")
+lines(fitted(m4),col="green",type="l")
+####Por lo tanto el verde es el que parece el mejor ajuste de modelo i.e se ve que es 
+#el más cercano al modelo real
+
+
+
+error<-function(m1,m2,m3,m4)
+{
+  MAE<-as.vector(4)
+  RMSE<-as.vector(4)
+  
+  MAE[1]<-accuracy(m1)[3]
+  MAE[2]<-accuracy(m2)[3]
+  MAE[3]<-accuracy(m3)[3]
+  MAE[4]<-accuracy(m4)[3]
+  
+  MAE<-abs(MAE)
+  
+  minMAE<-min(MAE)
+  
+  for(i in 1:4)
+  {
+    if (minMAE==MAE[i]){
+      modmae=i
+    }
+    
+  }
+  
+  RMSE[1]<-accuracy(m1)[2]
+  RMSE[2]<-accuracy(m2)[2]
+  RMSE[3]<-accuracy(m3)[2]
+  RMSE[4]<-accuracy(m4)[2]
+  
+  RMSE<-abs(RMSE)
+  
+  minRMSE<-min(RMSE)
+  
+  for(i in 1:4)
+  {
+    if (minRMSE==RMSE[i]) {
+      modrmse=i
+    }
+    
+  }
+  
+  cat("El modelo sugerido con el menor MAE es el modelo ",modmae,"\n","MAE =",MAE[modmae],"\n")
+  cat("El modelo sugerido con el menor RMSE es el modelo ",modrmse,"\n","RMSE =",RMSE[modrmse],"\n","\n")
+  cat("Vector MAE ",MAE,"\n")
+  cat("Vector RMSE ",RMSE,"\n")
+}
+
+
+error(m1,m2,m3,m4)
+##Por lo tanto el análisis gráfico y residual coinciden y el mejor modelo es el 4
+
+x11();plot(ica,main="Acciones ICA",xlab="TIEMPO",ylab="PRECIO",type="l")
+#La serie no presenta tendencia, al parecer tiene un poco de estacionalidad y varios ciclos 
