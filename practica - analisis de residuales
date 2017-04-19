@@ -1,0 +1,53 @@
+
+aa<-read.csv(file.choose())
+require(fpp)
+aa<-ts(aa,start=2005,frequency = 4)
+
+m1<- ses(aa,alpha=.2,initial="simple",h=4)
+m2<- ses(aa,alpha=.4,initial="simple",h=4)
+m3<- ses(aa,alpha=.6,initial="simple",h=4)
+m4<- ses(aa,alpha=.8,initial="simple",h=4)
+
+
+          ######ANÁLISIS DE RESIDUALES######
+
+x11(); plot(m1,ylab="",xlab="",main="",type="l")
+lines(m1$fitted,col="orange")
+lines(m2$fitted,col="blue")
+lines(m3$fitted,col="purple")
+lines(m4$fitted,col="red")
+
+e1<-residuals(m1)
+e2<-residuals(m2)
+e3<-residuals(m3)
+e4<-residuals(m4)
+
+###### VERIFICA no correlacionados Y VARIANZA CONSTANTE
+plot(e1,ylab="residuales",xlab="")
+plot(e2,ylab="residuales",xlab="")
+plot(e3,ylab="residuales",xlab="")
+plot(e4,ylab="residuales",xlab="")
+
+##VERIFICA NORMALMENTE DISTRIBUIDOS y media 0
+hist(e1,main="histograma de residuales")
+hist(e2,main="histograma de residuales")
+hist(e3,main="histograma de residuales")
+hist(e4,main="histograma de residuales")
+
+###PUREBAS DE AUTOCORRELACIONES
+
+#acf
+
+acf(e1,main="res1")
+acf(e2,main="res2")
+acf(e3,main="res3")
+acf(e4,main="res4")
+
+##ljung box (da mas certeza si hay o no correlación)
+
+#H0: las autocorrelaciones de un desfase de k son cero
+Box.test(e1,lag=10,type="Lj")
+Box.test(e2,lag=10,type="Lj")
+Box.test(e3,lag=10,type="Lj")
+Box.test(e4,lag=10,type="Lj")
+?Box.test
