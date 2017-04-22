@@ -1,0 +1,36 @@
+base<-read.csv(file.choose())
+seriebaja<-ts(base[,1],start = 2016,frequency = 252)
+seriealza<-ts(base[,2],start = 2016,frequency = 252)
+
+s1<-window(seriebaja,end=c(2016,14));s1
+s2<-window(seriealza,end=c(2016,14));s2
+
+require(forecast)
+
+
+ms11<-holt(s1,initial="simple",h=3)
+ms12<-holt(s1,initial="simple",exponential = TRUE,h=3)
+ms13<-holt(s1,damped=TRUE,h=3)
+ms14<-holt(s1,exponential=TRUE,damped = TRUE,h=3)
+
+
+ms21<-holt(s2,initial="simple",h=3)
+ms22<-holt(s2,initial="simple",exponential = TRUE,h=3)
+ms23<-holt(s2,damped=TRUE,h=3)
+ms24<-holt(s2,exponential=TRUE,damped = TRUE,h=3)
+
+###Serie de tiempo a la baja
+x11();plot(ms11,main="Precio de acciones Netflix")
+lines(ms12$mean,col=2)
+lines(ms13$mean,col=3)
+lines(ms14$mean,col=5)
+lines(seriebaja)
+legend("bottomleft",col=c(1,4,2,3,5),c("real","simple","exponencial","amortiguado","amortiguado exponencial"),pch=16)
+
+###Serie de tiempo a la baja
+x11();plot(ms21,main="Precio de acciones Netflix")
+lines(ms22$mean,col=2)
+lines(ms23$mean,col=3)
+lines(ms24$mean,col=5)
+lines(seriealza)
+legend("topleft",col=c(1,4,2,3,5),c("real","simple","exponencial","amortiguado","amortiguado exponencial"),pch=16)
