@@ -1,0 +1,18 @@
+
+milk<-read.csv(file.choose(),header = T)
+lechets<-ts(milk,frequency = 12,start=c(1965,1))
+
+plot(lechets)
+
+require(forecast) 
+m1<-hw(lechets,seasonal="additive",h=4)
+m2<-hw(lechets,seasonal="multiplicative",h=4)
+m3<-holt(lechets,initial="simple",exponential=T,h=4)
+
+x11();plot(lechets, main="Produccion de leche 1965",xlab="año",ylab="producción",col="blue")
+lines(m1$mean,col="purple")
+lines(m2$mean,col="green")
+lines(m3$mean,col="red")
+legend("topleft",col=c("blue","purple","green","red"),c("real","aditivo","multiplicativo","exponencial"),pch=16)
+
+#https://datamarket.com/data/set/22ox/monthly-milk-production-pounds-per-cow-jan-62-dec-75#!ds=22ox&display=line
