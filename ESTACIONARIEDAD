@@ -1,0 +1,10 @@
+ica<-read.csv(file.choose())
+otra<-sample(300:900,252,replace=T)
+
+icats<-ts(ica,start=c(2016,08),frequency = 252)
+otrats<-ts(otra,start=c(2016,08),frequency = 252)
+
+x11();acf(otrats)#ruido blancp, es aleatoria, no hay relación entre sus observaciones
+###es candidata a ser estacionaria
+
+x11();acf(icats)#si hay relacion entre sus datos, no es estacionaria
