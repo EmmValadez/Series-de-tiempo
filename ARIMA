@@ -1,0 +1,83 @@
+base<-read.csv(file.choose())
+cemex<-base[,1]
+bimbo<-base[,2]
+
+cemexts<-ts(cemex,frequency=252,start=2016)
+bimbots<-ts(bimbo,frequency=252,start=2016)
+
+###Corroboramos si nuestra serie es estacionaria
+##para eso se aplica la prueba de raiz unitaria a travez de la funcion
+#adf.test y checamos que p-value<.05
+
+require(fpp)
+adf.test(bimbots)
+dbimbots<-diff(bimbots) #aplicamos la primera diferenciacion con la función diff 
+#y vemos si ya es estacionaria
+
+adf.test(dbimbots)
+##POR LO TANTO CON 1 DIFERENCIACIÓN YA ES ESTACIONARIA Y d=1
+
+##para encontrar el valor de los promedios moviles usamos el correlograma y contamos las
+#observaciones que exceden las bandas de confianza incluyendo el primer dato
+#por lo tanto q=4
+acf(dbimbots)
+
+##para el grado de los modelos autoregresivos p, se utiliza la función pacf() partial autocorrelation function
+pacf(dbimbots)
+##por lo tanto p=4
+
+
+##POR LO TANTO SE PROPONE UN MODELO ARIMA (4,1,4)
+
+m1bimbo<-Arima(bimbots,order=c(4,1,4))
+m1bimbo
+
+m2bimbo<-Arima(bimbots,order=c(1,1,2))
+m2bimbo      
+
+m3bimbo<-Arima(bimbots,order=c(2,1,2));m3bimbo
+## se toma el AICc menor m1bimbo
+
+bimbores<-residuals(m1bimbo)
+Box.test(bimbores,lag=12,type="Ljung-Box") ##En esta prueba buscamos un p-value grande que indique
+#que los errores son indepentiendes (ruido blanco)
+
+##el modelo si lo cumple pues p-value=.7259 y los residuales son indepen.
+mod1<-forecast(m1bimbo,h=12)
+X11();plot(mod1,include = 18)##include te da los íltimos 18 datos
+mod1
+summary(mod1)
+
+#comparando con la función autoarima
+
+auto.arima(bimbots)
+##probando el que nos dio la funcion autoarima
+bimbores2<-residuals(m2bimbo)
+Box.test(bimbores2,lag=12,type="Ljung-Box") #si tiene un p-value grande
+mod2<-forecast(m2bimbo,h=12)
+x11();plot(mod2,include = 25)
+
+#### DE NUEVO EL ANÁLISIS CON LA SERIE DE CEMEX
+
+#DIFERENCIACION
+adf.test(cemexts)
+dcxts<-diff(cemexts)
+adf.test(dcxts)
+#por lo tanto d=1
+
+#MEDIAS MÓVILES
+acf(dcxts)#q=2
+
+#AUTOREGRESIVO
+pacf(dcxts)#p=1
+
+##Por lo tanto el modelo arima con (1,1,2)
+mcemex<-Arima(cemexts,order = c(1,1,2));mcemex
+
+
+Box.test(residuals(mcemex),lag=12,type="Ljung-Box")
+#los errores son indepentiendes (ruido blanco)
+
+X11();plot(forecast(m1bimbo,h=12),include = 18)
+
+auto.arima(cemexts)
