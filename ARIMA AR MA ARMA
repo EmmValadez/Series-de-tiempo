@@ -1,0 +1,46 @@
+base<-read.csv(file.choose())
+cc1<-ts(base,frequency = 252,start=2016)
+require(fpp)
+
+################################ARIMA(p,0,0) = AR(p)
+
+#AR(1)
+zz<-Arima(cc1,order=c(1,0,0))
+zz
+#yt=13.3425+.9864(yt-1)+et
+
+#AR(2)
+zz2<-Arima(cc1,order=c(2,0,0))
+zz2
+#yt=13.2634+1.0601yt-1-.0755yt-2+et
+
+
+
+###############################ARIMA(0,0,q) = MA(q)
+
+#MA(1)
+yy<-Arima(cc1,order=c(0,0,1))
+yy
+#yt=12.7409+.8605(et-1)
+
+#MA(2)
+yy2<-Arima(cc1,order=c(0,0,2))
+yy2
+#yt=12.7481+1.339(et-1)+.7423(et-2)
+
+
+##############################ARIMA(p,0,q)= ARMA(p,q)
+
+##############################ARIMA(p,d,q)
+yy3<-arima(cc1,order=c(2,3,2))
+yy3
+#yt'''= .0716(y'''t-1)-.1527(y'''t-2)-1.9987(et-1)+.9998(et-2)+et
+
+base2<-read.csv(file.choose())
+martin<-ts(base2[,5],frequency=252,start=2016)
+martin
+
+
+m<-Arima(martin, order=c(4,2,1))
+m
+#y''t= .0474(y''t-1)+0.0817(y''t-2)+0.0877(y''t-3)-0.1234(y''t-4)-1.0000(et-1)+et
